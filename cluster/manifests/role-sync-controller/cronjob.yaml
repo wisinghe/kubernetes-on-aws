@@ -14,6 +14,7 @@ spec:
       backoffLimit: 3
       template:
         spec:
+          serviceAccountName: role-sync-controller
           restartPolicy: OnFailure
           containers:
           - name: role-sync-controller
