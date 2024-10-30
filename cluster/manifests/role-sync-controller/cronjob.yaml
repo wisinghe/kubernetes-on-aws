@@ -10,9 +10,17 @@ metadata:
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
+    metadata:
+      labels:
+        application: kubernetes
+        component: role-sync-controller
     spec:
       backoffLimit: 3
       template:
+        metadata:
+          labels:
+            application: kubernetes
+            component: role-sync-controller
         spec:
           serviceAccountName: role-sync-controller
           restartPolicy: OnFailure
