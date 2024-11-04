@@ -252,6 +252,7 @@ webhooks:
         apiGroups: [""]
         apiVersions: ["v1"]
         resources: ["services"]
+{{- if eq .Cluster.ConfigItems.teapot_admission_controller_enable_rolebinding_webhook "true" }}
   - name: rolebinding-admitter.teapot.zalan.do
     clientConfig:
       url: "https://localhost:8085/rolebinding"
@@ -265,3 +266,4 @@ webhooks:
         apiGroups: ["rbac.authorization.k8s.io"]
         apiVersions: ["v1"]
         resources: ["rolebindings", "clusterrolebindings"]
+{{- end }}
