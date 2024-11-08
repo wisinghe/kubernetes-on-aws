@@ -1170,7 +1170,13 @@ control_plane_load_balancer_internal: "none"
 #  fs.inotify.max_user_watches = 100000
 sysctl_settings: ""
 
-
+# kube-janitor configuration
+{{if eq .Cluster.Environment "production"}}
+# This makes kube-janitor opt-in for production clusters
+kube_janitor_enabled: "false"
+{{else}}
+kube_janitor_enabled: "true"
+{{end}}
 
 # scheduling_controls
 teapot_admission_controller_scheduling_controls_enabled: "false"
