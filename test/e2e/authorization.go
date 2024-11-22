@@ -449,11 +449,16 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 		g.When("the user is k8sapi_credentials-provider", func() {
 			g.BeforeEach(func() {
 				tc.data.users = []string{"zalando-iam:zalando:service:k8sapi_credentials-provider"}
-			})
-			g.It("should allow to get Secrets in kube-system namespace", func() {
 				tc.data.resources = []string{"secrets"}
 				tc.data.namespaces = []string{"kube-system"}
-				tc.data.verbs = []string{"get"}
+			})
+			g.It("should not allow to delete secrets in kube-system namespace", func() {
+				tc.data.verbs = []string{"delete"}
+				tc.run(context.TODO(), cs, false)
+				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+			})
+			g.It("should allow all non-delete operations on secrets in kube-system namespace", func() {
+				tc.data.verbs = []string{"get", "list", "watch", "create", "update", "patch"}
 				tc.run(context.TODO(), cs, true)
 				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 			})
