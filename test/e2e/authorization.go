@@ -283,6 +283,7 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 		g.It("should allow write access to DaemonSets", func() {
 			tc.data.resources = []string{"apps/daemonsets"}
 			tc.data.verbs = []string{"create", "update", "delete", "patch"}
+			tc.data.namespaces = []string{"visibility"}
 			tc.run(context.TODO(), cs, true)
 			gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 		})
@@ -294,7 +295,7 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 		})
 		g.It("should deny deletion of kube-system or visibility namespaces", func() {
 			tc.data.resources = []string{"namespaces"}
-			tc.data.namespaces = []string{"kube-system", "visibility"}
+			tc.data.names = []string{"kube-system", "visibility"}
 			tc.data.verbs = []string{"delete"}
 			tc.run(context.TODO(), cs, false)
 			gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
