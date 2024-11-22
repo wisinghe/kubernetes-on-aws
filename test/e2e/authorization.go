@@ -503,6 +503,11 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 					tc.run(context.TODO(), cs, true)
 					gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 				})
+				g.It("should allow write access", func() {
+					tc.data.verbs = writeOperations
+					tc.run(context.TODO(), cs, true)
+					gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+				})
 			})
 
 			g.When("the resource is not a Secret", func() {
