@@ -372,21 +372,9 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 			// g.It("should allow to create Pods", func() {})
 		})
 
-		g.When("the default service account is in default namespace", func() {
+		g.When("the service account is the default service account", func() {
 			g.BeforeEach(func() {
-				tc.data.users = []string{"system:serviceaccount:default:default"}
-			})
-			g.It("should deny to list StatefulSets", func() {
-				tc.data.resources = []string{"apps/statefulsets"}
-				tc.data.verbs = []string{"list"}
-				tc.run(context.TODO(), cs, false)
-				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
-			})
-		})
-
-		g.When("the default service account is in non-default namespace", func() {
-			g.BeforeEach(func() {
-				tc.data.users = []string{"system:serviceaccount:non-default:default"}
+				tc.data.users = []string{"system:serviceaccount:default:default", "system:serviceaccount:non-default:default"}
 			})
 			g.It("should deny to list StatefulSets", func() {
 				tc.data.resources = []string{"apps/statefulsets"}
