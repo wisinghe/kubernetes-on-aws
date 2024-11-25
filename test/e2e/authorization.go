@@ -32,7 +32,6 @@ var (
 		"apps/deployments/scale",
 		"apps/statefulsets/scale",
 		"services",
-		"persistentvolumes",
 		"persistentvolumeclaims",
 		"configmaps",
 	}
@@ -42,6 +41,7 @@ var (
 		"namespaces",
 		"rbac.authorization.k8s.io/clusterroles",
 		"storage.k8s.io/storageclasses",
+		"storage.k8s.io/persistentvolumes",
 		"apiextensions.k8s.io/customresourcedefinitions",
 	}
 	// a slice of "get", "list", "watch" verbs
@@ -54,11 +54,11 @@ var (
 	allOperations = append(readOperations, writeOperations...)
 
 	// a slice representing all namespaces with respect to the test cases
-	// "" represents the default namespace
+	// "default" is the default namespace
 	// "teapot" is a random namespace
 	// "visibility" is a namespace where collaborators will have access
 	// "kube-system" is a namespace where only administrators will have access
-	allNamespaces = []string{"", "teapot", "visibility", "kube-system"}
+	allNamespaces = []string{"default", "teapot", "visibility", "kube-system"}
 )
 
 var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
@@ -226,7 +226,7 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 			})
 			g.It("should allow write access in namespaces other than kube-system and visibility", func() {
-				tc.data.namespaces = []string{"", "teapot"}
+				tc.data.namespaces = []string{"default", "teapot"}
 				tc.run(context.TODO(), cs, true)
 				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 			})
@@ -321,7 +321,7 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 			})
 			g.It("should allow write access in namespaces other than kube-system", func() {
-				tc.data.namespaces = []string{"", "teapot"}
+				tc.data.namespaces = []string{"default", "teapot"}
 				tc.run(context.TODO(), cs, true)
 				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 			})
