@@ -184,6 +184,14 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 			gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 		})
 
+		g.It("should allow read access to Secrets in namespaces other than kube-system and visibility", func() {
+			tc.data.resources = []string{"secrets"}
+			tc.data.namespaces = []string{"default", "teapot"}
+			tc.data.verbs = readOperations
+			tc.run(context.TODO(), cs, true)
+			gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+		})
+
 		g.It("should deny write access to Nodes", func() {
 			tc.data.resources = []string{"nodes"}
 			tc.data.verbs = writeOperations
