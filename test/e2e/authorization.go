@@ -41,7 +41,6 @@ var (
 		"namespaces",
 		"rbac.authorization.k8s.io/clusterroles",
 		"storage.k8s.io/storageclasses",
-		"storage.k8s.io/persistentvolumes",
 		"apiextensions.k8s.io/customresourcedefinitions",
 	}
 	// a slice of "get", "list", "watch" verbs
