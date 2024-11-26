@@ -225,17 +225,11 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 				tc.data.resources = namespacedResources
 				tc.data.verbs = writeOperations
 			})
-			// These should be covered by the admission-controller tests. They will
-			// be skipped here. Later when we cover everything with RBAC, we can run them again.
 			g.It("should deny write access in kube-system and visibility namespaces", func() {
-				tc.data.namespaces = []string{"kube-system", "visibility"}
-				tc.run(context.TODO(), cs, false)
-				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+				g.Skip("handled by admission-controller")
 			})
 			g.It("should allow write access in namespaces other than kube-system and visibility", func() {
-				tc.data.namespaces = []string{"default", "teapot"}
-				tc.run(context.TODO(), cs, true)
-				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+				g.Skip("handled by admission-controller")
 			})
 		})
 		g.When("the resource is a global resource", func() {
@@ -305,14 +299,8 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 			tc.run(context.TODO(), cs, true)
 			gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
 		})
-		// This should be covered by the admission-controller tests. It will
-		// be skipped here. Later when we cover everything with RBAC, we can run it again.
 		g.It("should deny deletion of kube-system or visibility namespaces", func() {
-			tc.data.resources = []string{"namespaces"}
-			tc.data.names = []string{"kube-system", "visibility"}
-			tc.data.verbs = []string{"delete"}
-			tc.run(context.TODO(), cs, false)
-			gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+			g.Skip("handled by admission-controller")
 		})
 
 		g.When("the resource is a namespaced resource", func() {
@@ -320,12 +308,8 @@ var _ = g.Describe("Authorization [RBAC] [Zalando]", func() {
 				tc.data.resources = namespacedResources
 				tc.data.verbs = writeOperations
 			})
-			// This should be covered by the admission-controller tests. It will
-			// be skipped here. Later when we cover everything with RBAC, we can run it again.
 			g.It("should deny write access in kube-system namespace", func() {
-				tc.data.namespaces = []string{"kube-system"}
-				tc.run(context.TODO(), cs, false)
-				gomega.Expect(tc.output.passed).To(gomega.BeTrue(), tc.output.String())
+				g.Skip("handled by admission-controller")
 			})
 			g.It("should allow write access in namespaces other than kube-system", func() {
 				tc.data.namespaces = []string{"default", "teapot"}

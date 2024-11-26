@@ -185,7 +185,6 @@ if [ "$e2e" = true ]; then
     ginkgo -procs=25 -flake-attempts=2 \
         -focus="(\[Conformance\]|\[StatefulSetBasic\]|\[Feature:StatefulSet\]\s\[Slow\].*mysql|\[Zalando\])" \
         -skip="(\[Serial\]|validates.that.there.is.no.conflict.between.pods.with.same.hostPort.but.different.hostIP.and.protocol|Should.create.gradual.traffic.routes)" \
-        -skip="should.deny.write.access.in.kube-system.and.visibility.namespaces|should.allow.write.access.in.namespaces.other.than.kube-system.and.visibility|should.deny.write.access.in.kube-system.namespace|should.deny.deletion.of.kube-system.or.visibility.namespaces" \
         "e2e.test" -- \
         -delete-namespace-on-failure=false \
         -non-blocking-taints=node.kubernetes.io/role,nvidia.com/gpu,dedicated \
